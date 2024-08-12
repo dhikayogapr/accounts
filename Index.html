@@ -90,10 +90,10 @@
                 table.appendChild(tr);
                 provinces.add(row[9]);
 
-                const detailRow = document.createElement('div');
-                detailRow.className = 'details';
-                detailRow.id = 'details-' + row[0];
-                detailRow.innerHTML = `
+                const detailDiv = document.createElement('div');
+                detailDiv.className = 'details';
+                detailDiv.id = 'details-' + row[0];
+                detailDiv.innerHTML = `
                     <h6>Fish Categories</h6>
                     <ul>
                         <li>BAWAL: ${row[15]}</li>
@@ -106,7 +106,7 @@
                         <li>TILLAPIA: ${row[22]}</li>
                     </ul>
                 `;
-                tr.appendChild(detailRow);
+                document.querySelector('body').appendChild(detailDiv);
             });
 
             provinces.forEach(province => {
@@ -142,7 +142,9 @@
         // Function to show details on row click
         function showDetails(buyerLeadId) {
             const detailsDiv = document.getElementById('details-' + buyerLeadId);
-            detailsDiv.style.display = detailsDiv.style.display === "none" ? "block" : "none";
+            if (detailsDiv) {
+                detailsDiv.style.display = detailsDiv.style.display === "none" ? "block" : "none";
+            }
         }
 
         // Load initial data from Google Sheets
