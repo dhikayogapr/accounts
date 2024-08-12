@@ -55,9 +55,13 @@
 
         // Function to load data from Google Sheets
         async function loadData() {
-            const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1?key=${apiKey}`);
-            const data = await response.json();
-            renderTable(data.values);
+            try {
+                const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1?key=${apiKey}`);
+                const data = await response.json();
+                renderTable(data.values);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         }
 
         // Function to render table
@@ -78,7 +82,7 @@
                     <td>${row[6]}</td>
                     <td>${row[9]}</td>
                     <td>${row[10]}</td>
-                    <td><a href="https://maps.google.com/?q=${row[11]}" target="_blank">Map</a></td>
+                    <td><a href="https://maps.google.com/?q=${encodeURIComponent(row[11])}" target="_blank">Map</a></td>
                     <td>${row[12]}</td>
                     <td>${row[13]}</td>
                 `;
@@ -112,6 +116,7 @@
                 provinceFilter.appendChild(option);
             });
 
+            // Initialize Materialize Select
             M.FormSelect.init(provinceFilter);
         }
 
@@ -143,5 +148,7 @@
         // Load initial data from Google Sheets
         loadData();
     </script>
+    <!-- Include Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
